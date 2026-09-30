@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=League+Script&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Replace the native pointer with the custom cursor on mouse/trackpad devices. */
+@media (pointer: fine) and (hover: hover) {
+  html,
+  body,
+  body * {
+    cursor: none !important;
+  }
+}
+
+@layer base {
+  :root {
+    --cream-bg: #FAF7F2;
+    --maroon-accent: #8B1D24;
+    --hairline-border: #E8E2D8;
+    --font-serif: "Playfair Display", "Times New Roman", Georgia, serif;
+    --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+
+  body {
+    background-color: #FAF7F2;
+    background-image: radial-gradient(rgba(139, 29, 36, 0.03) 1px, transparent 0), url('/assets/fineline-grid.png');
+    background-repeat: repeat;
+    background-size: auto, 512px 341px;
+    color: #1F1E1D;
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Custom subtle scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #F4EFE6;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #D9CFBF;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #B8AB96;
+  }
+}
+
+/* Ensure nested scrolling in textarea or code blocks works smoothly without fighting Lenis */
+[data-lenis-prevent],
+textarea,
+pre,
+.scrollable-content {
+  overscroll-behavior: contain;
+}
+
+/* Native disclosure behavior keeps the mobile menu usable before client hydration. */
+.mobile-menu-trigger::-webkit-details-marker {
+  display: none;
+}
+
+.mobile-menu-trigger {
+  display: flex;
+  align-items: center;
+}
+
+.mobile-menu-details:not([open]) .mobile-menu-close-icon,
+.mobile-menu-details[open] .mobile-menu-open-icon {
+  display: none;
+}
+
+.mobile-menu-details:not([open]) .mobile-navigation-drawer {
+  display: none;
+}
+
+/* Reveal the landing tagline one character at a time, then loop. */
+.landing-tagline-reveal {
+  white-space: nowrap;
+  clip-path: inset(0 100% 0 0);
+  animation: landing-tagline-type 3.5s steps(30, end) infinite;
+}
+
+@keyframes landing-tagline-type {
+  0% { clip-path: inset(0 100% 0 0); }
+  57% { clip-path: inset(0 0 0 0); }
+  71% { clip-path: inset(0 0 0 0); }
+  100% { clip-path: inset(0 100% 0 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-tagline-reveal {
+    clip-path: none;
+    animation: none;
+  }
+}
+
+/* Editorial typography utilities */
+.font-editorial {
+  font-family: var(--font-serif);
+}
+
+.league-script-regular {
+  font-family: "League Script", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.text-maroon-accent {
+  color: #8B1D24;
+}
+
+.bg-maroon-accent {
+  background-color: #8B1D24;
+}
+
+.border-hairline {
+  border-color: #E8E2D8;
+}

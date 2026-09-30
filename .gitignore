@@ -1,0 +1,36 @@
+# Dependencies
+/node_modules/
+/.pnp
+.pnp.*
+
+# Next.js generated output
+/.next/
+/out/
+/build/
+/dist/
+
+# Deployment and tooling output
+/.vercel/
+/.turbo/
+/coverage/
+*.tsbuildinfo
+
+# Local environment and secrets
+.env*
+!.env.example
+!.env.*.example
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+*.log
+
+# Operating system and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Supabase CLI local state (keep migrations and config tracked)
+/supabase/.temp/
