@@ -18,16 +18,28 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { DashboardMetrics, Task } from '@/lib/types';
 import { formatIndiaDate, getIndiaDateKey, getIndiaGreeting } from '@/lib/date';
 import { ConfirmTaskDeletionDialog } from '@/components/tasks/ConfirmTaskDeletionDialog';
+import { createClient } from '@/lib/supabase/client';
 
 export default function HomePage() {
   const queryClient = useQueryClient();
   const [indiaNow, setIndiaNow] = useState<Date | null>(null);
+  const [userName, setUserName] = useState('User');
 
   useEffect(() => {
     const updateIndiaTime = () => setIndiaNow(new Date());
     updateIndiaTime();
     const interval = setInterval(updateIndiaTime, 60_000);
     return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+    createClient().auth.getUser().then(({ data: { user } }) => {
+      if (!active || !user) return;
+      const name = user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || 'User';
+      setUserName(name.trim() || 'User');
+    });
+    return () => { active = false; };
   }, []);
   const [selectedSubjectFilter, setSelectedSubjectFilter] = useState<string>('all');
   const [addTaskModalOpen, setAddTaskModalOpen] = useState(false);
@@ -210,7 +222,7 @@ export default function HomePage() {
         </p>
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <h1 className="font-editorial text-3xl md:text-4xl font-bold text-stone-900 tracking-tight flex items-center gap-2">
-            {indiaNow ? getIndiaGreeting(indiaNow) : 'Welcome'}, Himanshu <span className="text-2xl">👋</span>
+            {indiaNow ? getIndiaGreeting(indiaNow) : 'Welcome'}, {userName} <span className="text-2xl">👋</span>
           </h1>
           <span className="text-xs font-mono text-stone-500">{indiaNow ? formatIndiaDate(indiaNow) : ''}</span>
         </div>
