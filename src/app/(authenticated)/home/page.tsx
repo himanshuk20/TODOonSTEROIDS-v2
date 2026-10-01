@@ -168,7 +168,7 @@ export default function HomePage() {
 
     addTaskMutation.mutate({
       title: newTaskTitle.trim(),
-      subject_id: isNewSubject ? '' : subjectId,
+      subject_id: isNewSubject ? '' : (subjectId ?? ''),
       subject_name: isNewSubject ? newSubjectName.trim() : undefined,
       duration: parseInt(newTaskDuration, 10) || 45,
       scheduled_date: getIndiaDateKey(),

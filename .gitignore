@@ -34,3 +34,4 @@ Thumbs.db
 
 # Supabase CLI local state (keep migrations and config tracked)
 /supabase/.temp/
+.vercel

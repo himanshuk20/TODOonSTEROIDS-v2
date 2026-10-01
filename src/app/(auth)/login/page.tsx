@@ -2,19 +2,16 @@
 
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { useSearchParams } from 'next/navigation';
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const searchParams = useSearchParams();
-
   useEffect(() => {
-    const err = searchParams.get('error');
+    const err = new URLSearchParams(window.location.search).get('error');
     if (err === 'auth_callback_failed') {
       setError('Sign-in failed. Please try again.');
     }
-  }, [searchParams]);
+  }, []);
 
   async function handleGoogleSignIn() {
     setLoading(true);

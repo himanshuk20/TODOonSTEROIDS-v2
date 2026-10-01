@@ -482,15 +482,20 @@ class DatabaseStore {
       tasks_completed: completed,
       tasks_planned: total,
       completion_rate: completionRate,
+      completion_rate_change: null,
       study_streak: 12,
       total_study_hours: 28.5,
       consistency_series: consistencySeries,
-      subject_breakdown: metrics.subject_progress.map((s) => ({
-        name: s.subject_name,
-        percent: s.percent,
-        completed_topics: s.completed_topics,
-        total_topics: s.total_topics,
-      })),
+      subject_breakdown: this.getSubjects(planId).map((subject) => {
+        const subjectTasks = allTasks.filter((task) => task.subject_id === subject.id);
+        const completedSubjectTasks = subjectTasks.filter((task) => task.status === 'completed').length;
+        return {
+          name: subject.name,
+          percent: subjectTasks.length ? Math.round((completedSubjectTasks / subjectTasks.length) * 100) : 0,
+          completed_tasks: completedSubjectTasks,
+          total_tasks: subjectTasks.length,
+        };
+      }),
       task_breakdown: {
         completed,
         pending,
